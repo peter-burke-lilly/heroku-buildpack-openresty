@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Wrapper for starting nginx, but also application that should be proxied
 # through nginx, if given. Use template.lua to replace template variables inside nginx.conf.
