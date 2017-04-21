@@ -12,8 +12,8 @@ DEFAULT_ROOT="$(pwd)"
 TOOLS=`dirname \`dirname $0\``
 BUILDPACK="heroku-buildpack-openresty"
 
-CONF="${OPENRESTY_CONF:DEFAULT_CONF}"
-ROOT="${OPENRESTY_ROOT:DEFAULT_ROOT}"
+CONF="${OPENRESTY_CONF:-$DEFAULT_CONF}"
+ROOT="${OPENRESTY_ROOT:-$DEFAULT_ROOT}"
 OUT_CONF="$CONF.compiled"
 
 # prepare configuration first
