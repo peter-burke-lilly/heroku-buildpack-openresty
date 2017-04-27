@@ -1,26 +1,55 @@
-# heroku-openresty-buildpack - Get openresty (and Lua) running on Heroku
+# heroku-openresty-buildpack 
 
-Most of the brains in this buildpack are shamelessly copied from [Leafo's version](https://github.com/leafo/heroku-buildpack-lua), but it has some differences:
+## Introduction
 
-+ This buildpack uses openresty directly, rather than a buildpack that installs lua, and then using a [template](https://github.com/leafo/heroku-openresty) for your project
+This is customized version of
+[geoffleyland/heroku-buildpack-openresty](https://github.com/geoffleyland/heroku-buildpack-openresty)
+buildpack, that gives ability to use [OpenResty](http://openresty.org)
+as proxy in front of deployed application.
 
-+ This builds Openresty and LuaRocks from source, so in some sense it's easier to update when there are new releases
+OpenResty comes with builtin lua support.
 
-Usage of the buildpack itself is pretty straighforward:
+## Installation & usage
 
-    heroku buildpack:set https://github.com/geoffleyland/heroku-buildpack-openresty
+Add this buildpack to your heroku application, with:
 
-Actually getting things to work takes a little longer - it's easier to use
-[this project template](https://github.com/geoffleyland/heroku-buildpack-openresty-template).
+```
+$ heroku buildpack:set https://github.com/flyerbee-com/heroku-buildpack-openresty
+```
 
+Then, copy provided `nginx.conf.template` to root of your application
+source code and *rename it* to `nginx.conf`. Adjust it to suit your needs.
 
-# Issues
+### Using custom lua packages
 
-+ It'd be nice to build LuaJIT from source (2.1 head?) too, rather than use the one in OpenResty
-+ It'd be nice to version the things left in the cache so that old versions can be deleted when they're out of date
+In case you'd like to have installed custom lua libraries (or
+[lua rocks](https://luarocks.org/)), add `rockspec` file to your
+project on the same location where your put `nginx.conf`.
 
+Here is example how to install `lua-resty-http` library:
 
-## Alternatives
+```lua
+package = "PROJECT_NAME"
+version = "1-1"
 
-+ Leafo's [heroku-buildpack-lua](https://github.com/leafo/heroku-buildpack-lua)
-+ Davidad's [heroku-buildpack-openresty](https://github.com/davidad/heroku-buildpack-openresty)
+source = {
+  url = "",
+}
+
+build = {
+  type = "builtin",
+  modules = {},
+}
+
+-- actual dependencies used by openresty
+dependencies = {
+  "lua-resty-http"
+}
+```
+
+Update `PROJECT_NAME` to actual name of your project and save file as: `PROJECT_NAME-1-1.rockspec`.
+
+## License
+
+Most of the work has been done by
+[https://github.com/geoffleyland](https://github.com/geoffleyland).
