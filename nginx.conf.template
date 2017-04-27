@@ -40,8 +40,8 @@ http {
       # custom lua code 
       # access_by_lua '';
      
-      # in case you are using proxy
-      # proxy_pass http://127.0.0.1:8080;
+      # application must listen on port 8080
+      proxy_pass http://127.0.0.1:8080;
     }
   }
 }

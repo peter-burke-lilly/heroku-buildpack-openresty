@@ -18,7 +18,38 @@ $ heroku buildpack:set https://github.com/flyerbee-com/heroku-buildpack-openrest
 ```
 
 Then, copy provided `nginx.conf.template` to root of your application
-source code and *rename it* to `nginx.conf`. Adjust it to suit your needs.
+source code and *rename it* to `nginx.conf`; adjust it to suit your
+needs.
+
+By default, OpenResty expects your application to listen on port
+`8080`. In case you have other port in mind, update `nginx.conf`
+`proxy_pass` variable.
+
+## Updating Procfile
+
+Make sure to update your `Procfile`. In general, the content should
+be:
+
+```
+web: openresty.sh <command-to-start-your-application>
+```
+
+For example, to start custom Java application, `Procfile` will look
+like:
+
+```
+web: openresty.sh java $JVM_OPTS -jar app.jar
+```
+
+## Updating your application
+
+When your application is ready to serve requests sent by OpenResty,
+make sure to create empty `/tmp/app-initialized` file. This is a
+checkpoint for `heroku-buildpack-openresty` startup scripts, after
+which OpenResty will be started.
+
+In case your application doesn't create this file, it will be assumed
+it wasn't initialzed properly and OpenResty startup will fail.
 
 ### Using custom lua packages
 
@@ -52,4 +83,5 @@ Update `PROJECT_NAME` to actual name of your project and save file as: `PROJECT_
 ## License
 
 Most of the work has been done by
-[https://github.com/geoffleyland](https://github.com/geoffleyland).
+[https://github.com/geoffleyland](https://github.com/geoffleyland). Further
+customizations by Sanel Zukan for FLYERBEE AG.
