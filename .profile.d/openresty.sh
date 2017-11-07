@@ -1,3 +1,4 @@
+export STACK=heroku-16
 TOOLS=$HOME/tools
 
 PATH=$TOOLS/bin:$PATH
