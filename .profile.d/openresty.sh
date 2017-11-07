@@ -1,4 +1,4 @@
-export STACK=heroku-16
+export STACK=cedar-14
 TOOLS=$HOME/tools
 
 PATH=$TOOLS/bin:$PATH
